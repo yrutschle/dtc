@@ -1,0 +1,14 @@
+Printer:
+-> Printer (5)
+Ethernet / IP 4,4> / TCP 3,5> / ? / ?
+Router:
+-> Netfilter (3)
+void / IP / TCP / ? / ?
+-> CUPS (5)
+void / IP / TCP / IPP 3,6> / IPP printing payload
+-> IPP proxy (5)
+void / IP / TCP / <2,3 IPP / IPP printing payload
+-> Netfilter (3) [2,firewall.png]
+Ethernet / <0,1 IP / <1,2 TCP / IPP / IPP printing payload
+Laptop:
+-> Application (5)
