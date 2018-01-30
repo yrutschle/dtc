@@ -199,7 +199,7 @@ my %cfg;
 if (-e $ini_filename) {
     open my $f, "$ini_filename" or warn "$!\n";
     while (<$f>) {
-        next unless /(\w+)\s*:\s*(.*)/;
+        next unless /^(\w+)\s*:\s*(.*)/;
         my ($param, $val) = ($1, $2);
         if ($val =~ /\[(.*)\]/) {
             my @a = split /\s+/, $1;

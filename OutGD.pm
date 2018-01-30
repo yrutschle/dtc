@@ -108,13 +108,30 @@ sub _load_cfg {
     $no_sf_cfg = _val($cfg, 'no_sf', '192,192,192');
 
     # Pick one: http://hslpicker.com/
-    my $base_color_str = _val($cfg, 'base_color', 'hsl:314,0.8,0.65');
-    my $base_color = Convert::Color->new($base_color_str);
 
-    my ($arrow_base, $prot_base ,$system_base) = create_neutral_palette(3, 360, $base_color);
-    @prot_box_cfg = map { [ $_->as_rgb8->rgb8 ] } create_monochrome_palette($self->max_prot_level, $prot_base);
-    @sf_color_cfg = map { [ $_->as_rgb8->rgb8 ] } create_neutral_palette(5, 180, $arrow_base);
-    @system_box_cfg = $system_base->as_rgb8->rgb8;
+    if (exists $cfg->{'base_color'}) {
+        my $base_color_str = _val($cfg, 'base_color', 'hsl:314,0.8,0.65');
+        my $base_color = Convert::Color->new($base_color_str);
+        my ($arrow_base, $prot_base ,$system_base) = create_neutral_palette(3, 180, $base_color);
+        @prot_box_cfg = map { [ $_->as_rgb8->rgb8 ] } create_monochrome_palette($self->max_prot_level, $prot_base);
+        @sf_color_cfg = map { [ $_->as_rgb8->rgb8 ] } create_neutral_palette(5, 180, $arrow_base);
+        @system_box_cfg = $system_base->as_rgb8->rgb8;
+    } else {
+        # Default, boring color scheme
+        my $rgb = Convert::Color->new("rgb8:213,184,127");
+        for ( 0 .. $self->max_prot_level - 1 ) {
+            push @prot_box_cfg, $rgb;
+        }
+        @sf_color_cfg = (
+            Convert::Color->new("rgb8:57,142,19"),
+            Convert::Color->new("rgb8:88,221,28"),
+            Convert::Color->new("rgb8:250,245,0"),
+            Convert::Color->new("rgb8:244,167,28"),
+            Convert::Color->new("rgb8:221,29,29")
+        );
+        $rgb = Convert::Color->new("rgb8:200,200,200");
+        @system_box_cfg = $rgb->rgb8;
+    }
 }
 
 sub make_prot_box {
