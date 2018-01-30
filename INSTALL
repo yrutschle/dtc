@@ -1,0 +1,3 @@
+On Debian:
+
+apt-get install libmoose-perl libgd-graph-perl libconvert-color-perl perlmagick
