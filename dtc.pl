@@ -1,6 +1,6 @@
 #! /usr/bin/perl -w
 # dtc: dataflow translation charts
-# Copyright (C) 2015  Yves Rutschle
+# Copyright (C) 2015-2018  Yves Rutschle
 # 
 # This program is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -18,6 +18,10 @@
 # http://www.gnu.org/licenses/gpl.html
 
 use strict;
+use Cwd 'abs_path';
+use File::Basename;
+use lib dirname( abs_path $0 );
+
 
 use Getopt::Long;
 use Pod::Usage;
