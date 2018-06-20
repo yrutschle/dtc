@@ -26,8 +26,6 @@ use lib dirname( abs_path $0 );
 use Getopt::Long;
 use Pod::Usage;
 use Data::Dumper;
-use OutGD;
-use OutText;
 
 =head1 NAME
 
@@ -35,7 +33,7 @@ use OutText;
 
 =head1 SYNOPSIS
 
-dtc.pl [--config|-f <config>] [--format <png|ascii>] <input1> [<input2> ...] -o <out.png>
+dtc.pl [--config|-f <config>] [--format <png|txt|svg>] <input1> [<input2> ...] -o <out.png>
 
 =head1 DESCRIPTION
 
@@ -133,14 +131,15 @@ defaults if no configuration file is present.
 
 =item C<--format>
 
-Specifies the output format. I<png> will produce a bitmap image. I<ascii> will
-produce a glamorous, RFC-style text diagram.
+Specifies the output format. I<png> will produce a bitmap image. I<txt> will
+produce a glamorous, RFC-style text diagram. I<SVG> will produce standard
+vector graphics.
 
 =item C<--output>
 
-Specifies the output file name. By default, an extension '.png' or '.txt' is
-appended to the input filename. If the input filename has the '.dtc' extension,
-it will be removed. '-' specifies stdout.
+Specifies the output file name. By default, an extension '.png', '.svg' or
+'.txt' is appended to the input filename. If the input filename has the '.dtc'
+extension, it will be removed. '-' specifies stdout.
 
 =back
 
@@ -189,7 +188,7 @@ GetOptions(
 ) or die pod2usage();
 die pod2usage(-verbose=>2) if defined $help;
 
-$out_format //= 'png';
+$out_format //= 'svg';
 
 ##############################
 # Read Configuration, with Reasonable defaults
@@ -319,13 +318,21 @@ push @system_boxes, {
 my $out;
 
 if ($out_format eq 'png') {
+    use OutGD;
     $out = new OutGD(
         verbose => $verbose, 
         max_prot_level => $max_prot_level
     );
-} elsif ($out_format eq 'ascii') {
+} elsif ($out_format eq 'txt') {
+    use OutText;
     $out = new OutText(
         verbose => $verbose, 
+        max_prot_level => $max_prot_level
+    );
+} elsif ($out_format eq 'svg') {
+    use OutSVG;
+    $out = new OutSVG(
+        verbose => $verbose,
         max_prot_level => $max_prot_level
     );
 } else {
@@ -394,9 +401,8 @@ $out->add_icons(@function_arrows);
 
 if (not defined $out_filename) {
     $out_filename = $ARGV;
-    my $ext = ($out_format eq 'ascii' ? '.txt' : '.png');
-    $out_filename =~ s/\.dtc/$ext/;
-    $out_filename .= "$ext" if $out_filename eq $ARGV; # avoid erasing input file
+    $out_filename =~ s/\.dtc/.$out_format/;
+    $out_filename .= "$out_format" if $out_filename eq $ARGV; # avoid erasing input file
 }
 
 $out->save($out_filename);
