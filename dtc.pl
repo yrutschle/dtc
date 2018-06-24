@@ -1,5 +1,5 @@
 #! /usr/bin/perl -w
-# dtc: dataflow translation charts
+# dtc: dataflow tabular chart
 # Copyright (C) 2015-2018  Yves Rutschle
 # 
 # This program is free software; you can redistribute it
@@ -29,7 +29,7 @@ use Data::Dumper;
 
 =head1 NAME
 
- dtc -- dataflow translation charts
+ dtc -- dataflow tabular chart
 
 =head1 SYNOPSIS
 
@@ -40,6 +40,19 @@ dtc.pl [--config|-f <config>] [--format <png|txt|svg>] <input1> [<input2> ...] -
 I<dtc> takes a textual description of a dafatlow diagram and produces a
 graphical output of the diagram. It is very convenient to present complex
 transport and filtering systems in one synthetic view.
+
+The goal of the graphical representation is to convey information that is not
+usually available on a standard architecture representation: those
+representations usually show functional dataflows with no details on the
+transport mechanisms. DTC represents the protocol layers across the whole
+dataflow, allowing to show which device or service processes which part of the
+protocol layers.
+
+For example I<email.svg> shows a simple, typical e-mail setup whereby the
+sender (on the right) sends e-mail to an SMTP server. The SMTP server saves
+e-mail in local files (maybe using Maildir). An IMAP server on the same system
+serves the local user. This diagram shows easily that a malformed e-mail
+message can reach right inside the protected domain.
 
 =head1 DIAGRAM DESCRIPTION
 
@@ -133,7 +146,7 @@ defaults if no configuration file is present.
 
 Specifies the output format. I<png> will produce a bitmap image. I<txt> will
 produce a glamorous, RFC-style text diagram. I<SVG> will produce standard
-vector graphics.
+vector graphics. The default is I<SVG>.
 
 =item C<--output>
 
@@ -244,6 +257,7 @@ while (my $line = <>) {
     if ($line =~ /^-> (.*)\s*\((\d+)\)(.*)/) {
         my ($service, $level, $rest) = ($1, $2, $3);
         my @icons;
+        warn "$.: level not defined\n" if not defined $level;
 	if ($rest =~ /\[(.*)\]/) {
             my @specs = split /;/, $1;
             foreach (@specs) {

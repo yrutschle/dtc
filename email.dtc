@@ -1,0 +1,19 @@
+Human:
+-> Human (6)
+void / void / void / void / void / Human content
+Reader laptop:
+-> Email client (5)
+Ethernet / IP / TCP / IMAPS / RFC2822 message / Human content
+Firewall Router:
+-> Routing (3)
+Ethernet / IP / TCP / IMAPS / RFC2822 message / Human content
+Mail server DMZ:
+-> IMAP Server (4)
+void  /void  / void / local file / RFC2822 message / Human content
+-> SMTP Server (4)
+Ethernet / IP / TCP / SMTP / RFC2822 message / Human content
+Front firewall:
+-> Routing (3)
+ / IP / TCP / SMTP / RFC2822 message / Human content
+Sender PC:
+-> Email client (6)

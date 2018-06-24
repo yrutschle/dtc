@@ -1,16 +1,29 @@
 # NAME
 
-    dtc -- dataflow translation charts
+    dtc -- dataflow tabular chart
 
 # SYNOPSIS
 
-dtc.pl \[--config|-f <config>\] \[--format <png|ascii>\] <input1> \[<input2> ...\] -o <out.png>
+dtc.pl \[--config|-f &lt;config>\] \[--format &lt;png|txt|svg>\] &lt;input1> \[&lt;input2> ...\] -o &lt;out.png>
 
 # DESCRIPTION
 
 _dtc_ takes a textual description of a dafatlow diagram and produces a
 graphical output of the diagram. It is very convenient to present complex
 transport and filtering systems in one synthetic view.
+
+The goal of the graphical representation is to convey information that is not
+usually available on a standard architecture representation: those
+representations usually show functional dataflows with no details on the
+transport mechanisms. DTC represents the protocol layers across the whole
+dataflow, allowing to show which device or service processes which part of the
+protocol layers.
+
+For example _email.svg_ shows a simple, typical e-mail setup whereby the
+sender (on the right) sends e-mail to an SMTP server. The SMTP server saves
+e-mail in local files (maybe using Maildir). An IMAP server on the same system
+serves the local user. This diagram shows easily that a malformed e-mail
+message can reach right inside the protected domain.
 
 # DIAGRAM DESCRIPTION
 
@@ -96,14 +109,15 @@ It is not currently possible to change the security function arrow colours.
 
 - `--format`
 
-    Specifies the output format. _png_ will produce a bitmap image. _ascii_ will
-    produce a glamorous, RFC-style text diagram.
+    Specifies the output format. _png_ will produce a bitmap image. _txt_ will
+    produce a glamorous, RFC-style text diagram. _SVG_ will produce standard
+    vector graphics. The default is _SVG_.
 
 - `--output`
 
-    Specifies the output file name. By default, an extension '.png' or '.txt' is
-    appended to the input filename. If the input filename has the '.dtc' extension,
-    it will be removed. '-' specifies stdout.
+    Specifies the output file name. By default, an extension '.png', '.svg' or
+    '.txt' is appended to the input filename. If the input filename has the '.dtc'
+    extension, it will be removed. '-' specifies stdout.
 
 # EXAMPLE
 
