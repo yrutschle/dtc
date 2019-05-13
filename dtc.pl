@@ -266,6 +266,8 @@ while (my $line = <>) {
                 push @icons, [ $prot, $icon ];
             }
 	}
+        die "Missing protocols between `$function_arrows[-1]->{arrow_service}` and `$service`\n" 
+            if @function_arrows and $x == $function_arrows[-1]->{arrow_x};
         push @function_arrows, {
             arrow_x => $x, 
             arrow_height => $level, 
@@ -369,7 +371,10 @@ foreach (@system_boxes) {
 
 warn "merging protocol boxes\n" if $verbose;
 
+my $debug_merge = 0;
+
 # Merge protocol boxes that aren't cut by an arrow
+warn "max_prot_level $max_prot_level\n" if $debug_merge;
 for (my $y = 0; $y < $max_prot_level; $y++) {
     my $start_x = 0;
     my $x = 1;
@@ -381,8 +386,10 @@ for (my $y = 0; $y < $max_prot_level; $y++) {
         ) {
             $prot_boxes[$start_x][$y]->{box_len}++;
             $prot_boxes[$x][$y] = undef;
+            warn "prot box[$start_x][$y] extended to $x\n" if $debug_merge;
         } else {
             $start_x = $x;
+            warn "$start_x,$y: $prot_boxes[$start_x][$y]->{box_label} $x,$y: $prot_boxes[$x][$y]->{box_label} arrow to: $function_arrows[$x]->{arrow_height}\n" if $debug_merge;
         }
         $x++;
     }
