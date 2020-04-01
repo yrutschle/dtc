@@ -1,0 +1,7 @@
+Mail server DMZ:
+-> SMTP server (4)
+Ethernet / 2> IP / 3> TCP / SMTP / RFC2822 message
+-> Firewall(3)
+void / <2 IP / <3,A TCP / SMTP / RFC2822 message
+Sender PC:
+-> Email client (5)

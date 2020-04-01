@@ -1,0 +1,9 @@
+DMZ:
+-> Web server (4)
+Eth / TPC-IP / void / HTTP
+-> stunnel (3)
+Eth / TCP-IP / TLS / HTTP
+-> Front firewall (2)
+ / TCP-IP / TLS / HTTP
+Laptop:
+-> Browser (4)

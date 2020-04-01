@@ -1,0 +1,6 @@
+DMZ:
+-> Filter 2 (2)
+Eth / IP / TCP / HTTP
+-> Filter 3 (3)
+Eth / IP / TCP / HTTP
+-> Filter 4 (4)

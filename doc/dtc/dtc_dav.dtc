@@ -1,0 +1,8 @@
+Server:
+-> Dav Server (6)
+Ethernet / IP / TCP / SSL / HTTP / DAV file
+Firewall:
+-> Filtering (5)
+Ethernet / <3 IP / <3 TCP / <3 SSL / <x,A HTTP / DAV file
+Sender PC:
+-> Email client (6)
