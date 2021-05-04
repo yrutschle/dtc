@@ -186,7 +186,7 @@ System lines must come after a dataflow line.
 
 =head1 AUTHOR
 
-Written by Yves Rutschle (dflows@rutschle.net)
+Written by Yves Rutschle (dflows2@rutschle.net)
 
 =cut
 
