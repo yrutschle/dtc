@@ -279,6 +279,7 @@ while (my $line = <>) {
 
     if (my @prots = split /\s*\/\s*/, $line) {
         $max_prot_level = scalar @prots if not defined $max_prot_level;
+        die "Incomplete protocol stack line $.:`$line`\n" if scalar @prots != $max_prot_level;
         @prots = reverse @prots;
         for (my $i = 0; $i < @prots; $i++) {
             my $prot = $prots[$i];
@@ -379,6 +380,8 @@ for (my $y = 0; $y < $max_prot_level; $y++) {
     my $start_x = 0;
     my $x = 1;
     while (($x < @prot_boxes) ) {
+        $prot_boxes[$start_x][$y]->{box_label} //= "";
+        $prot_boxes[$x][$y]->{box_label} //= "";
         # Extend the box if the label is the same and the filtering arrow
         # doesn't reach that high
         if ($prot_boxes[$start_x][$y]->{box_label} eq $prot_boxes[$x][$y]->{box_label}
